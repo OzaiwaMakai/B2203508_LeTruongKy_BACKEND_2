@@ -20,12 +20,6 @@ app.use("/api/contacts", contactsRouter)
 //handle 404 response
 
 
-app.use((req,res,next) => {
-    //Code ở đây sẽ  chạy khi không có route định nghĩa nào
-    //khớp với yêu cầu. Gọi next() để chuyển sang middleware xử lí lỗi
-    return next( new ApiError(404,"Resource not found"))
- })
-
 app.use((error,req,res,next) => {
     //Middleware xử lí lỗi tập trung
     //Trong các đoạn code sử lí ở các route, gọi next(err) sẽ chuyển vào middleware xử lí lỗi này
@@ -34,7 +28,10 @@ app.use((error,req,res,next) => {
     })
  })
 
+ app.use((req,res,next) => {
+    //Code ở đây sẽ không chạy khi không có route định nghĩa nào
+    //khớp với yêu cầu. Gọi next() để chuyển sang middleware xử lí lỗi
+    return next( new ApiError(404,"Resource not found"))
+ })
 
-
-
-module.exports = app;
+module.exports = app
